@@ -1,0 +1,25 @@
+{
+  "name": "basic-app-boilerplate",
+  "version": "0.0.0",
+  "description": "A good starting place for web apps.",
+  "authors": [
+    "Bryant Rolfe"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "underscore": "~1.6.0",
+    "jquery": "~2.1.0",
+    "bootstrap": "~3.1.1",
+    "requirejs": "~2.1.11",
+    "requirejs-text": "~2.0.10",
+    "qunit": "~1.14.0"
+  }
+}

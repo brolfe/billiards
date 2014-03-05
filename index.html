@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" class='compact'>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic App Boilerplate</title>
+
+    <!-- build:css //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.min.css -->
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <!-- endbuild-->
+
+    <!-- build:css //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap-theme.min.css -->
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
+    <!-- endbuild-->
+
+    <!-- build:css app.min.css-->
+    <link rel="stylesheet" type="text/css" href="src/app.css"/>
+    <!-- endbuild-->
+
+    <!-- build:js //ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js -->
+    <!-- endbuild-->
+
+    <!-- build:js //cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js -->
+    <!-- endbuild-->
+
+    <!-- build:js //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js -->
+    <!-- endbuild-->
+
+    <!-- build:js //cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js -->
+    <script src="bower_components/requirejs/require.js"></script>
+    <!-- endbuild-->
+
+    <!-- build:js main.min.js -->
+    <script src="src/require_config.js"></script>
+    <script src="src/main.js"></script>
+    <!-- endbuild -->
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>New Web App!</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 col-xs-offset-1" id="dropdown-container"></div>
+            <div class="col-xs-9">
+                <h1>The dropdown is: <strong id="date-value"></strong></h1>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

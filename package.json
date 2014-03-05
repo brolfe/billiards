@@ -1,0 +1,24 @@
+{
+  "name": "NewWebAppBoilerplate",
+  "version": "0.1.0",
+  "author": "brolfe",
+  "description": "Boilerplate code for a new webapp.",
+  "devDependencies": {
+    "grunt": "0.4.x",
+    "grunt-contrib-jshint": "0.7.2",
+    "grunt-contrib-qunit": "0.2.x",
+    "grunt-contrib-clean": "0.4.x",
+    "grunt-contrib-copy": "0.4.0",
+    "grunt-usemin": "2.0.x",
+    "grunt-filerev": "0.2.x",
+    "grunt-cli": "0.1.x",
+    "grunt-contrib-requirejs": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-csso": "~0.5.3",
+    "grunt-lintspaces": "~0.4.1",
+    "grunt-http-server": "0.0.4"
+  },
+  "engines": {
+    "node": ">=0.8"
+  }
+}

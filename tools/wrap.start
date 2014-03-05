@@ -1,0 +1,9 @@
+define( 'jquery', function () {
+    return window.$;
+});
+define( 'underscore', function () {
+    return window._;
+});
+define( 'bootstrap', function () {
+    return {};
+});

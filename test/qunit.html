@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Snapshot Test Page - Development</title>
+    <link rel="shortcut icon" href="../../favicon.ico"/>
+
+    <link rel="stylesheet" type="text/css" href="../bower_components/qunit/qunit/qunit.css"></link>
+    <script src="../bower_components/requirejs/require.js"></script>
+    <script src="../src/require_config.js"></script>
+    <script src="../bower_components/qunit/qunit/qunit.js"></script>
+    <script type="text/javascript">
+
+        QUnit.config.autostart = false;
+
+        require.config({
+            baseUrl: ".."
+        });
+        require([
+            'test/app',
+        ], function() {
+            QUnit.start();
+        });
+    </script>
+</head>
+<body>
+<div id="qunit"></div>
+</body>
+</html>

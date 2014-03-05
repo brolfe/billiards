@@ -1,0 +1,22 @@
+RewriteEngine on
+
+# USED ONLY WHEN IN DEVELOPMENT ENV
+RewriteRule HtmlReportData http://services-staging.factset.com/devel/service/HtmlReportData [P]
+# END DEV ENV
+
+Header set Connection keep-alive 
+
+###### CACHING STUFF ######
+RewriteRule vendor/ - [E=longcache:1]
+
+RewriteRule min\.\w\w\w\w\w\w\w\w\. - [E=longcache:1]
+
+# Add cache headers and e-tag for all non-PHP files
+<FilesMatch "(?<!\.html)$">
+    FileETag MTime Size
+    Header set Cache-Control "max-age=0, private"
+
+    # For anything that is longcache set the max-age
+    # header to 1 year for long lived caching
+    Header set Cache-Control "max-age=31536000, private" env=longcache
+</FilesMatch>
