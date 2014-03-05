@@ -10,6 +10,6 @@ define(['src/app'], function( App ) {
         var app = new App();
 
         ok( app, 'app is a thing' );
-        ok( app.$dropdown, 'app has a $dropdown member var' );
+        ok( app.$circle, 'app has a $dropdown member var' );
     });
 });

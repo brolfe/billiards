@@ -1,14 +1,25 @@
 require([
+    'jquery',
     'src/app',
-], function(App) {
+    'bootstrap'
+], function( $, App ) {
     'use strict';
 
-    // initialize the app
-    var app = new App();
+    $(function(){
+        // initialize the app
+        var app = new App();
 
-    // start the app
-    app.start();
+        // put the app on the window for easier debugging
+        window.app = app;
 
-    // put the app on the window for easier debugging
-    window.app = app;
+        // hook up the start button
+        $('#start').click(function(){
+            app.start();
+        });
+
+        // hook up the stop button
+        $('#stop').click(function(){
+            app.stop();
+        });
+    });
 });
