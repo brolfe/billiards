@@ -2,7 +2,8 @@
 define([
     'underscore',
     'jquery',
-    'src/circle'
+    'src/circle',
+    'src/field'
 ], function( _, $ ) {
     'use strict';
 
@@ -22,15 +23,18 @@ define([
         this.$circle = $('<div>').circle({
             px: 100, // initial x position
             py: 100, // initial y position
-            vx: 5,   // initial x velocity
-            vy: -10, // initial y velocity
+            vx: 7,   // initial x velocity
+            vy: -9, // initial y velocity
             ay: 1    // gravity...sorta
         });
 
-        this.$field = $('#field');
+        this.$field = $('#field').field({
+            width: 503,
+            height: 303
+        });
 
         // put the circle on the playing field
-        this.$field.append( this.$circle );
+        this.$field.field( 'add', this.$circle );
 
     };
 
@@ -48,7 +52,7 @@ define([
 
         digest: function(){
             // update position of all obejcts in the field
-            this.$circle.circle( 'digest', 10 );
+            this.$field.field( 'digest', 10 );
         }
     });
 

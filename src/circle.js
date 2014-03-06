@@ -7,6 +7,8 @@ define([
     $.widget('billiards.circle', {
         
         options: {
+            size: 10, // size in px
+
             px: 0, // position x
             py: 0, // position y
 
@@ -20,7 +22,10 @@ define([
         _create: function(){
             this.$element = this.element; // Use the $prefix naming convention
 
-            this.$element.addClass('circle');
+            this.$element.addClass('circle').css({
+                width: this.options.size + 'px',
+                height: this.options.size + 'px'
+            });
 
             // TODO: check parent for dimensions and set max position?
             // should this object require that it is given the container?
