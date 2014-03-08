@@ -4,6 +4,9 @@ define([
 ], function( $ ){
     'use strict';
 
+    var X = 0; // constants for X and Y position in arrays
+    var Y = 1;
+
     $.widget('billiards.circle', {
         
         options: {
@@ -26,6 +29,9 @@ define([
                 width: this.options.size + 'px',
                 height: this.options.size + 'px'
             });
+
+            // Member vars
+            this.$field = null;
 
             // TODO: check parent for dimensions and set max position?
             // should this object require that it is given the container?
@@ -81,15 +87,53 @@ define([
         // Update position and velocity for one digest cycle
         digest: function( scale ){
             scale = scale || 1;
+
+            var size = this.$field.field('size');
+
+            var leftX = this.options.px + this.options.vx / scale;
+            var topY  = this.options.py + this.options.vy / scale;
+
+            var rightX  = leftX + this.options.size;
+            var bottomY = topY + this.options.size;
+            
+            var vx = this.options.vx + this.options.ax / scale;
+            var vy = this.options.vy + this.options.ay / scale;
+
+            if ( rightX > size[ X ] ) {
+                rightX = size[ X ] - ( rightX % size[ X ] );
+                leftX = rightX - this.options.size;
+                vx = vx * -1;
+            }
+            
+            if ( leftX < 0 ) {
+                leftX = leftX * -1;
+                vx = vx * -1;
+            }
+
+            if ( bottomY > size[ Y ] ) {
+                bottomY = size[ Y ] - ( bottomY % size[ Y ] );
+                topY = bottomY - this.options.size;
+                vy = vy * -1;
+            }
+            
+            if ( topY < 0 ) {
+                topY = topY * -1;
+                vy = vy * -1;
+            }
+
             // TODO: come up with something more concrete with digestFrequency, scale, etc.
             // update position
-            this.options.px += this.options.vx / scale;
-            this.options.py += this.options.vy / scale;
-
-            this.options.vx += this.options.ax / scale;
-            this.options.vy += this.options.ay / scale;
+            this.options.px = leftX;
+            this.options.py = topY;
+            
+            this.options.vx = vx;
+            this.options.vy = vy;
 
             this._updatePosition();
+        },
+
+        setField: function( $field ){
+            this.$field = $field;
         }
     });
 });

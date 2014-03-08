@@ -25,10 +25,11 @@ define([
             this.circles = [];
         },
 
-        add: function( circle ){
+        add: function( $circle ){
             // TODO get the circle's position and make sure it within the field
-            this.circles.push( circle );
-            this.$element.append( circle );
+            this.circles.push( $circle );
+            this.$element.append( $circle );
+            $circle.circle( 'setField', this.$element );
         },
 
         // update each circle in the field
@@ -39,40 +40,12 @@ define([
                 // call digest on each circle
                 $c.circle( 'digest', scale );
 
-                // then get its new position and velocity
-                var pos = $c.circle('position');
-                var vel = $c.circle('velocity');
-
-                // TODO should the boundary checking be done here? How will collision checking work?
-
-                // and check for collisions with the boundaries of the field
-
-                // if the circle's position exceeds the max width AND it has a positive x velocity
-                if ( pos[ X ] >= this.options.width && vel[ X ] > 0 ) {
-                    // reverse x velocity
-                    $c.circle('velocity', vel[ X ] * -1, vel[ Y ] );
-                }
-                
-                // if the circle's position exceeds the min width AND it has a negative x velocity
-                if ( pos[ X ] < 0 && vel[ X ] < 0 ) {
-                    // reverse x velocity
-                    $c.circle('velocity', vel[ X ] * -1, vel[ Y ] );
-                }
-                
-                // if the circle's position exceeds the max height AND it has a positive y velocity
-                if ( pos[ Y ] >= this.options.height && vel[ Y ] > 0 ) {
-                    // reverse y velocity
-                    $c.circle('velocity', vel[ X ], vel[ Y ] * -1 );
-                }
-                
-                // if the circle's position exceeds the min height AND it has a negative y velocity
-                if ( pos[ Y ] < 0 && vel[ Y ] < 0 ) {
-                    // reverse y velocity
-                    $c.circle('velocity', vel[ X ], vel[ Y ] * -1 );
-                }
-
             }, this );
 
+        },
+
+        size: function(){
+            return [ this.options.width, this.options.height ];
         }
     });
         
