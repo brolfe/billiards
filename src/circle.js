@@ -8,9 +8,27 @@ define([
     var X = 0; // constants for X and Y position in arrays
     var Y = 1;
 
+    var colors = [ 'red', 'blue', 'green', 'black', 'orange', 'pink' ];
+
+    var getLimitedRandom = function( limit, allowNegative ) {
+        var rand = Math.floor( ( Math.random() * 10000 ) % limit );
+        if ( allowNegative && Math.random() > 0.5 ) {
+            rand = rand * -1;
+        }
+        return rand;
+    };
+
     $.widget('billiards.circle', {
         
         options: {
+            // can be passed an array specifying position bounds
+            // and the circle will init itself with a bunch of
+            // random initial conditions
+            random: null,
+
+            // simulate brownian motion -- zero initial v, constantly random a
+            brownian: null,
+
             color: null,
             size: 10, // size in px
 
@@ -27,6 +45,16 @@ define([
         _create: function(){
             this.$element = this.element; // Use the $prefix naming convention
 
+            if ( this.options.random ) {
+                this._initRandomInitialConditions( this.options.random );
+            }
+
+            if ( this.options.brownian ) {
+                // brownian simulation starts with zero velocity
+                this.options.vx = 0;
+                this.options.vy = 0;
+            }
+
             this.$element.addClass('circle').css({
                 width: this.size() + 'px',
                 height: this.size() + 'px',
@@ -36,6 +64,22 @@ define([
             // TODO: check parent for dimensions and set max position?
             // should this object require that it is given the container?
             this._updatePosition();
+        },
+
+        // create random initial conditions
+        _initRandomInitialConditions: function( config ) {
+            this.options.px = getLimitedRandom( config.field[ X ] );
+            this.options.py = getLimitedRandom( config.field[ Y ] );
+
+            this.options.vx = getLimitedRandom( 20, true );
+            this.options.vy = getLimitedRandom( 20, true );
+            
+            if ( config.constantVelocity !== true ) {
+                this.options.ax = getLimitedRandom( 3, true );
+                this.options.ay = getLimitedRandom( 3, true );
+            }
+
+            this.options.color = colors[ getLimitedRandom( colors.length ) ];
         },
 
         // update postion on the element
@@ -92,6 +136,12 @@ define([
             this.options.px += this.options.vx / scale;
             this.options.py += this.options.vy / scale;
     
+            if ( this.options.brownian ) {
+                // brownian motion has constantly random acceleration
+                this.options.ax = getLimitedRandom( this.options.brownian, true );
+                this.options.ay = getLimitedRandom( this.options.brownian, true );
+            }
+
             this.options.vx += this.options.ax / scale;
             this.options.vy += this.options.ay / scale;
 

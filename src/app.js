@@ -12,6 +12,7 @@ define([
         
         // Set/merge app options
         this.options = {
+            numCircles: 15,
             digestFrequency: 10, // how often should the event loop be called?    
         };
         _.extend( this.options, options );
@@ -20,33 +21,23 @@ define([
 
         this.intervalId = null; // so that we can clear the interval
 
-        this.$c1 = $('<div>').circle({
-            color: 'red',
-            px: 100, // initial x position
-            py: 100, // initial y position
-            vx: 7,   // initial x velocity
-            vy: 0,   // initial y velocity
-            ay: 0    // gravity...sorta
-        });
-
-        this.$c2 = $('<div>').circle({
-            color: 'green',
-            px: 150, // initial x position
-            py: 100, // initial y position
-            vx: 2,  // initial x velocity
-            vy: 0,   // initial y velocity
-            ay: 0    // gravity...sorta
-        });
+        var width = 503;
+        var height = 303;
 
         this.$field = $('#field').field({
-            width: 503,
-            height: 303
+            width: width,
+            height: height
         });
 
-        // put the circle on the playing field
-        this.$field.field( 'add', this.$c1 );
-        this.$field.field( 'add', this.$c2 );
-
+        for ( var i = 0; i < this.options.numCircles; i++ ) {
+            this.$field.field( 'add', $('<div>').circle({
+                random: {
+                    field: [ width, height ],
+                    /* constantVelocity: false */
+                },
+                brownian: 5
+            }));
+        }
     };
 
     // Extend the App prototype to add "class" methods to App

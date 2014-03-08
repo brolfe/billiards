@@ -80,6 +80,8 @@ define([
                 var c2vy = c2v[ Y ];
 
                 // swap x and y velocities
+                // FIXME if the first collision does not fully separate the circles
+                //       then they will lock together
                 // TODO we are ignoring mass/size
                 $c1.circle('velocity', c2vx, c2vy );
                 $c2.circle('velocity', c1vx, c1vy );
