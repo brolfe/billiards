@@ -4,9 +4,14 @@ define([
 ], function( $ ){
     'use strict';
 
+    // TODO move to constants module?
+    var X = 0; // constants for X and Y position in arrays
+    var Y = 1;
+
     $.widget('billiards.circle', {
         
         options: {
+            color: null,
             size: 10, // size in px
 
             px: 0, // position x
@@ -24,11 +29,9 @@ define([
 
             this.$element.addClass('circle').css({
                 width: this.size() + 'px',
-                height: this.size() + 'px'
+                height: this.size() + 'px',
+                'background-color': this.options.color
             });
-
-            // Member vars
-            this.$field = null;
 
             // TODO: check parent for dimensions and set max position?
             // should this object require that it is given the container?
@@ -98,9 +101,30 @@ define([
         size: function() {
             return this.options.size;
         },
+    
+        // returns a bool indicating whether the given points are contained in the circle
+        doesContain: function( pointsArray ) {
+            var x = pointsArray[ X ];
+            var y = pointsArray[ Y ];
 
-        setField: function( $field ){
-            this.$field = $field;
+            // TODO create a getEdges helper function?
+            var leftX   = this.options.px;
+            var rightX  = leftX + this.options.size;
+            var topY    = this.options.py;
+            var bottomY = topY + this.options.size;
+
+            return x >= leftX && x <= rightX && y >= topY && y <= bottomY;
+        },
+
+        getOuterPoints: function() {
+            var size = this.size();
+            return [
+                [ this.options.px, this.options.py ],
+                [ this.options.px + size, this.options.py ],
+                [ this.options.px, this.options.py + size ],
+                [ this.options.px + size, this.options.py + size ],
+            ];
         }
+
     });
 });

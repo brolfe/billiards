@@ -10,6 +10,7 @@ define([
 
     $.widget('billiards.field', {
         options: {
+            scale:  10,  // pixels per cycle scale adjustment
             width:  500, // width in px
             height: 300  // height in px
         },
@@ -30,29 +31,63 @@ define([
             // TODO get the circle's position and make sure it within the field
             this.circles.push( $circle );
             this.$element.append( $circle );
-            $circle.circle( 'setField', this.$element );
         },
 
         // update each circle in the field
-        digest: function( scale ){
+        digest: function(){
 
             // call digest on each circle
             _.each( this.circles, function( $c ){
-                $c.circle( 'digest', scale );
+                $c.circle( 'digest', this.options.scale );
             }, this );
 
             // after all cicles have digested, adjust position/velocity accounting for boundary collisions
             _.each( this.circles, function( $c ){
-                this._updateBoundaryCollision( $c, scale );
+                this._updateBoundaryCollision( $c );
             }, this );
 
             // next, adjust position/velocity accounting for circle collisions
+            _.each( this.circles, function( $c1, index ) {
+                // we want to compute collisions for every circle against every other circle
+                // but we don't need to do repeats. i.e. if we have checked cicle 'a' against
+                // circle 'b', we don't need to check 'b' against 'a'. Simple enough, right?
+                // "index + 1" because a circle can't collide with itself. Duh.
+                var otherCircles = this.circles.slice( index + 1, this.circles.length );
+
+                _.each( otherCircles, function( $c2 ) {
+                    this._updateCircleCollision( $c1, $c2 );
+                }, this );
+
+            }, this );
 
         },
 
-        _updateBoundaryCollision: function( $circle, scale ) {
+        _updateCircleCollision: function( $c1, $c2 ) {
+            var c1OuterPoints = $c1.circle('getOuterPoints');
+
+            var isCollision = _.any( c1OuterPoints, function( pointsArray ) {
+                return $c2.circle( 'doesContain', pointsArray );
+            });
+
+            if ( isCollision ) {
+                // gah! I have forgotten the momentum equations!
+                var c1v = $c1.circle('velocity');
+                var c1vx = c1v[ X ];
+                var c1vy = c1v[ Y ];
+
+                var c2v = $c2.circle('velocity');
+                var c2vx = c2v[ X ];
+                var c2vy = c2v[ Y ];
+
+                // swap x and y velocities
+                // TODO we are ignoring mass/size
+                $c1.circle('velocity', c2vx, c2vy );
+                $c2.circle('velocity', c1vx, c1vy );
+            }
+        },
+
+        _updateBoundaryCollision: function( $circle ) {
             /* jshint maxstatements:35 */
-            scale = scale || 1;
 
             var fieldSize = this.size();
             var adjustmentMade = false; // do we need to update $circle?
