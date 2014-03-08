@@ -43,7 +43,7 @@ define([
                 var pos = $c.circle('position');
                 var vel = $c.circle('velocity');
 
-                // TODO should we be checking that next digest will exceed the boundary?
+                // TODO should the boundary checking be done here? How will collision checking work?
 
                 // and check for collisions with the boundaries of the field
 
