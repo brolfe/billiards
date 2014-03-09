@@ -71,8 +71,8 @@ define([
 
         // create random initial conditions
         _initRandomInitialConditions: function( config ) {
-            this.options.px = getLimitedRandom( config.field[ X ] );
-            this.options.py = getLimitedRandom( config.field[ Y ] );
+            this.options.px = getLimitedRandom( config.field[ X ] - this.options.size );
+            this.options.py = getLimitedRandom( config.field[ Y ] - this.options.size );
 
             this.options.vx = getLimitedRandom( 20, true );
             this.options.vy = getLimitedRandom( 20, true );
@@ -182,7 +182,7 @@ define([
         },
 
         /* COLLISION ACCOUNTING
-         * ==================== */
+        ** ==================== */
 
         // record that this circle is colliding with another
         markCollision: function( $circle ) {
