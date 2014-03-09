@@ -9,35 +9,20 @@ define([
 
     // App's constructor function
     var App = function( options ) {
-        
+
         // Set/merge app options
         this.options = {
             numCircles: 15,
-            digestFrequency: 10, // how often should the event loop be called?    
+            digestFrequency: 10, // how often should the event loop be called?
+            width: 503,
+            height: 303
         };
         _.extend( this.options, options );
 
         // initialize member vars
-
         this.intervalId = null; // so that we can clear the interval
+        this.$field = null;
 
-        var width = 503;
-        var height = 303;
-
-        this.$field = $('#field').field({
-            width: width,
-            height: height
-        });
-
-        for ( var i = 0; i < this.options.numCircles; i++ ) {
-            this.$field.field( 'add', $('<div>').circle({
-                random: {
-                    field: [ width, height ],
-                    constantVelocity: true
-                },
-                /* brownian: 5 */
-            }));
-        }
     };
 
     // Extend the App prototype to add "class" methods to App
@@ -53,8 +38,60 @@ define([
         },
 
         digest: function(){
-            // update position of all obejcts in the field
-            this.$field.field( 'digest', 10 );
+            if ( this.$field ) {
+                // update position of all obejcts in the field
+                this.$field.field( 'digest', this.options.digestFrequency );
+            }
+        },
+
+        populateField: function( config ) {
+            // stop any processing
+            this.stop();
+
+            // empty field container to delete current field
+            $('#fieldContainer').empty();
+            delete this.$field;
+
+            this.$field = $('<div>').field({
+                width: this.options.width,
+                height: this.options.height
+            });
+
+            for ( var i = 0; i < this.options.numCircles; i++ ) {
+                this.$field.field( 'add', $('<div>').circle( config ) );
+            }
+
+            $('#fieldContainer').append( this.$field );
+        },
+
+        /* DIFFERENT SCENARIOS
+        ** =================== */
+
+        setBrownian: function() {
+            this.populateField({
+                random: {
+                    field: [ this.options.width, this.options.height ]
+                },
+                brownian: 5
+            });
+        },
+
+        setConstantVelocity: function() {
+            this.populateField({
+                random: {
+                    field: [ this.options.width, this.options.height ],
+                    constantVelocity: true
+                }
+            });
+        },
+
+        setGravity: function() {
+            this.populateField({
+                random: {
+                    field: [ this.options.width, this.options.height ],
+                    constantVelocity: false
+                }
+            });
         }
     });
 

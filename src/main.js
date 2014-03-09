@@ -21,5 +21,23 @@ require([
         $('#stop').click(function(){
             app.stop();
         });
+
+        // tab toggling
+        $('#scenarioTabs > li > a').click(function () {
+            $( this ).tab('show');
+            // This is where we should be using the backbone router
+            var id = $( this ).attr('href');
+            switch ( id ) {
+                case '#brownian':
+                    app.setBrownian();
+                    break;
+                case '#constant_v':
+                    app.setConstantVelocity();
+                    break;
+                case '#gravity':
+                    app.setGravity();
+                    break;
+            }
+        });
     });
 });

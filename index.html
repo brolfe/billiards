@@ -2,7 +2,7 @@
 <html lang="en" class='compact'>
 <head>
     <meta charset="UTF-8">
-    <title>Basic App Boilerplate</title>
+    <title>Billiards</title>
 
     <!-- build:css //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.min.css -->
     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
@@ -43,12 +43,18 @@
         </div>
         <div class="row">
             <div class="col-xs-12">
-                <button class="btn" id="start">Start</button>
-                <button class="btn" id="stop">Stop</button>
+                <ul class="nav nav-tabs" id="scenarioTabs">
+                    <li><a href="#brownian">Brownian Motion</a></li>
+                    <li><a href="#constant_v">Constant Velocity</a></li>
+                    <li><a href="#gravity">Gravity</a></li>
+                </ul>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12" id="field">
+            <div class="col-xs-8" id="fieldContainer"></div>
+            <div class="col-xs-4" id="controls">
+                <button class="btn" id="start">Start</button>
+                <button class="btn" id="stop">Stop</button>
             </div>
         </div>
     </div>
