@@ -33,9 +33,9 @@ define([
             this.$field.field( 'add', $('<div>').circle({
                 random: {
                     field: [ width, height ],
-                    /* constantVelocity: false */
+                    constantVelocity: true
                 },
-                brownian: 5
+                /* brownian: 5 */
             }));
         }
     };

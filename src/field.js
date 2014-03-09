@@ -63,6 +63,7 @@ define([
         },
 
         _updateCircleCollision: function( $c1, $c2 ) {
+            /* jshint maxstatements:20 */
             var c1OuterPoints = $c1.circle('getOuterPoints');
 
             var isCollision = _.any( c1OuterPoints, function( pointsArray ) {
@@ -70,6 +71,11 @@ define([
             });
 
             if ( isCollision ) {
+                if ( $c1.circle( 'existingCollision', $c2 ) || $c2.circle( 'existingCollision', $c1 ) ) {
+                    // two objects cannot collide for multiple consecutive cycles
+                    // otherwise they will just start trading momentum back and forth infinitely
+                    return;
+                }
                 // gah! I have forgotten the momentum equations!
                 var c1v = $c1.circle('velocity');
                 var c1vx = c1v[ X ];
@@ -80,11 +86,18 @@ define([
                 var c2vy = c2v[ Y ];
 
                 // swap x and y velocities
-                // FIXME if the first collision does not fully separate the circles
-                //       then they will lock together
                 // TODO we are ignoring mass/size
                 $c1.circle('velocity', c2vx, c2vy );
                 $c2.circle('velocity', c1vx, c1vy );
+
+                // record that these two have collided so they dont collide for
+                // multiple consecutive cycles
+                $c1.circle('markCollision', $c2 );
+                $c2.circle('markCollision', $c1 );
+            } else {
+                // make sure these are marked as not colliding
+                $c1.circle('clearCollision', $c2 );
+                $c2.circle('clearCollision', $c1 );
             }
         },
 

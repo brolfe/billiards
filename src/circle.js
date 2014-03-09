@@ -1,7 +1,8 @@
 define([
+    'underscore',
     'jquery',
     'jqui-widget'
-], function( $ ){
+], function( _, $ ){
     'use strict';
 
     // TODO move to constants module?
@@ -19,7 +20,7 @@ define([
     };
 
     $.widget('billiards.circle', {
-        
+
         options: {
             // can be passed an array specifying position bounds
             // and the circle will init itself with a bunch of
@@ -41,7 +42,7 @@ define([
             ax: 0, // acceleration x (in px per cycle per cycle)
             ay: 0  // acceleration y
         },
-        
+
         _create: function(){
             this.$element = this.element; // Use the $prefix naming convention
 
@@ -61,6 +62,8 @@ define([
                 'background-color': this.options.color
             });
 
+            this.currentCollisions = [];
+
             // TODO: check parent for dimensions and set max position?
             // should this object require that it is given the container?
             this._updatePosition();
@@ -73,7 +76,7 @@ define([
 
             this.options.vx = getLimitedRandom( 20, true );
             this.options.vy = getLimitedRandom( 20, true );
-            
+
             if ( config.constantVelocity !== true ) {
                 this.options.ax = getLimitedRandom( 3, true );
                 this.options.ay = getLimitedRandom( 3, true );
@@ -135,7 +138,7 @@ define([
             // update postion / velocity
             this.options.px += this.options.vx / scale;
             this.options.py += this.options.vy / scale;
-    
+
             if ( this.options.brownian ) {
                 // brownian motion has constantly random acceleration
                 this.options.ax = getLimitedRandom( this.options.brownian, true );
@@ -151,7 +154,7 @@ define([
         size: function() {
             return this.options.size;
         },
-    
+
         // returns a bool indicating whether the given points are contained in the circle
         doesContain: function( pointsArray ) {
             var x = pointsArray[ X ];
@@ -166,6 +169,8 @@ define([
             return x >= leftX && x <= rightX && y >= topY && y <= bottomY;
         },
 
+        // return an array of arrays representing the four outer
+        // points of this square / circle thing
         getOuterPoints: function() {
             var size = this.size();
             return [
@@ -174,6 +179,24 @@ define([
                 [ this.options.px, this.options.py + size ],
                 [ this.options.px + size, this.options.py + size ],
             ];
+        },
+
+        /* COLLISION ACCOUNTING
+         * ==================== */
+
+        // record that this circle is colliding with another
+        markCollision: function( $circle ) {
+            this.currentCollisions = _.union( this.currentCollisions, $circle );
+        },
+
+        // record that this circle is not colliding with another
+        clearCollision: function( $circle ) {
+            this.currentCollisions = _.without( this.currentCollisions, $circle );
+        },
+
+        // check whether this circle is currently colliding with another
+        existingCollision: function( $circle ) {
+            return _.contains( this.currentCollisions, $circle );
         }
 
     });
