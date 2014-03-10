@@ -1,6 +1,7 @@
 define([
+    'jquery',
     'backbone'
-], function( Backbone ) {
+], function( $, Backbone ) {
     'use strict';
 
     var Router = Backbone.Router.extend({
@@ -24,6 +25,13 @@ define([
                     this.app.setGravity();
                     break;
             }
+
+            // update the tab display
+            $('#scenarioTabs > li').removeClass('active');
+
+            $('#scenarioTabs > li > a[href*="' +  scenario + '"]' )
+            .closest('li')
+            .addClass('active');
         }
 
     });

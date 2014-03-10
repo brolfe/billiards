@@ -22,12 +22,15 @@ define([
     $.widget('billiards.circle', {
 
         options: {
-            // can be passed an array specifying position bounds
-            // and the circle will init itself with a bunch of
-            // random initial conditions
-            random: null,
+
+            random: {
+                field: null, // the field in which to restrict the random positioning
+                randomVelocity: true,    // randomly assign velocity
+                randomAcceleration: true // randomly assign acceleration
+            },
 
             // simulate brownian motion -- zero initial v, constantly random a
+            // value should be an int limiting the max a
             brownian: null,
 
             color: null,
@@ -46,7 +49,7 @@ define([
         _create: function(){
             this.$element = this.element; // Use the $prefix naming convention
 
-            if ( this.options.random ) {
+            if ( this.options.random.field ) {
                 this._initRandomInitialConditions( this.options.random );
             }
 
@@ -74,10 +77,13 @@ define([
             this.options.px = getLimitedRandom( config.field[ X ] - this.options.size );
             this.options.py = getLimitedRandom( config.field[ Y ] - this.options.size );
 
-            this.options.vx = getLimitedRandom( 20, true );
-            this.options.vy = getLimitedRandom( 20, true );
+            if ( config.randomVelocity ) {
+                this.options.vx = getLimitedRandom( 20, true );
+                this.options.vy = getLimitedRandom( 20, true );
+            }
 
-            if ( config.constantVelocity !== true ) {
+            if ( config.randomAcceleration ) {
+                // user does not want constant velocity -- make acceleration random!
                 this.options.ax = getLimitedRandom( 3, true );
                 this.options.ay = getLimitedRandom( 3, true );
             }

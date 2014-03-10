@@ -31,11 +31,6 @@ require([
             app.stop();
         });
 
-        // tab toggling
-        $('#scenarioTabs > li > a').click(function () {
-            $( this ).tab('show');
-        });
-
         Backbone.history.start();
     });
 });

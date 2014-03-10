@@ -89,8 +89,10 @@ define([
             this.populateField({
                 random: {
                     field: [ this.options.width, this.options.height ],
-                    constantVelocity: false
-                }
+                    randomAcceleration: false
+                },
+                ax: 0,
+                ay: 3
             });
         }
     });
