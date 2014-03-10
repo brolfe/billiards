@@ -19,6 +19,7 @@ require.config({
         jquery: 'bower_components/jquery/dist/jquery',
         underscore: 'bower_components/underscore/underscore',
         bootstrap: 'bower_components/bootstrap/dist/js/bootstrap',
+        backbone: 'bower_components/backbone/backbone',
         'jqui-widget': 'bower_components/jqueryui/ui/jquery.ui.widget',
         'jqui-core': 'bower_components/jqueryui/ui/jquery.ui.core'
     }

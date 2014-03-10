@@ -21,6 +21,7 @@
     "requirejs": "~2.1.11",
     "requirejs-text": "~2.0.10",
     "qunit": "~1.14.0",
-    "jqueryui": "~1.10.4"
+    "jqueryui": "~1.10.4",
+    "backbone": "~1.1.2"
   }
 }

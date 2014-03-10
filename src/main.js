@@ -1,16 +1,25 @@
 require([
     'jquery',
+    'backbone',
     'src/app',
+    'src/router',
     'bootstrap'
-], function( $, App ) {
+], function( $, Backbone, App, Router ) {
     'use strict';
 
-    $(function(){
-        // initialize the app
-        var app = new App();
+    // initialize the app
+    var app = new App();
 
-        // put the app on the window for easier debugging
-        window.app = app;
+    // put the app on the window for easier debugging
+    window.app = app;
+
+    // ridiculous IIFE to get around unused variable warnings resulting from
+    // Backbone's ridiculous "new" router API
+    (function() {
+        return new Router({ app: app });
+    })();
+
+    $(function(){
 
         // hook up the start button
         $('#start').click(function(){
@@ -25,19 +34,8 @@ require([
         // tab toggling
         $('#scenarioTabs > li > a').click(function () {
             $( this ).tab('show');
-            // This is where we should be using the backbone router
-            var id = $( this ).attr('href');
-            switch ( id ) {
-                case '#brownian':
-                    app.setBrownian();
-                    break;
-                case '#constant_v':
-                    app.setConstantVelocity();
-                    break;
-                case '#gravity':
-                    app.setGravity();
-                    break;
-            }
         });
+
+        Backbone.history.start();
     });
 });
