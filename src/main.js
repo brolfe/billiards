@@ -1,35 +1,17 @@
 require([
     'jquery',
-    'backbone',
-    'src/app',
-    'src/router',
-    'bootstrap'
-], function( $, Backbone, App, Router ) {
+    'angular',
+    // angular module system
+    'src/controller',
+    'angular-ui'
+], function( $, ng ) {
     'use strict';
 
-    // initialize the app
-    var app = new App();
+    // define the app
+    ng.module( 'app', [ 'app.controller', 'ui.bootstrap' ] );
 
-    // put the app on the window for easier debugging
-    window.app = app;
-
-    // ridiculous IIFE to get around unused variable warnings resulting from
-    // Backbone's ridiculous "new" router API
-    (function() {
-        return new Router({ app: app });
-    })();
-
-    $(function(){
-
-        $('input[name="start-stop"]').change(function() {
-            var val = $( this ).val();
-            if ( val === 'start' ) {
-                app.start();
-            } else {
-                app.stop();
-            }
-        });
-
-        Backbone.history.start();
+    $(function() {
+        // start that app
+        ng.bootstrap( document, ['app'] );
     });
 });

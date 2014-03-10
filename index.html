@@ -38,7 +38,7 @@
     <!-- endbuild -->
 </head>
 <body>
-    <div class="container">
+    <div class="container" ng-controller="controller">
         <div class="row">
             <div class="col-xs-12">
                 <h1>Billiards</h1>
@@ -46,23 +46,19 @@
         </div>
         <div class="row">
             <div class="col-xs-12">
-                <ul class="nav nav-tabs" id="scenarioTabs">
-                    <li><a href="#scenarios/brownian">Brownian Motion</a></li>
-                    <li><a href="#scenarios/constantv">Constant Velocity</a></li>
-                    <li><a href="#scenarios/gravity">Gravity</a></li>
-                </ul>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" ng-model="scenario" btn-radio="'brownian'">Brownian Motion</button>
+                    <button type="button" class="btn btn-primary" ng-model="scenario" btn-radio="'constantv'">Constant Velocity</button>
+                    <button type="button" class="btn btn-primary" ng-model="scenario" btn-radio="'gravity'">Gravity</button>
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col-xs-8" id="fieldContainer"></div>
             <div class="col-xs-4" id="controls">
-                <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-success">
-                        <input type="radio" name="start-stop" value="start">Start</input>
-                    </label>
-                    <label class="btn btn-danger active">
-                        <input type="radio" name="start-stop" value="stop">Stop</input>
-                    </label>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success" ng-model="started" btn-radio="true">Start</button>
+                    <button type="button" class="btn btn-danger"  ng-model="started" btn-radio="false">Stop</button>
                 </div>
             </div>
         </div>

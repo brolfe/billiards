@@ -4,9 +4,6 @@ define( 'jquery', function () {
 define( 'underscore', function () {
     return window._;
 });
-define( 'bootstrap', function () {
-    return {};
-});
-define( 'backbone', function () {
-    return window.Backbone;
+define( 'angular', function () {
+    return window.angular;
 });

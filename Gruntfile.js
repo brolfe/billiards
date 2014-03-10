@@ -68,7 +68,7 @@ module.exports = function(grunt) {
                     include: ['src/main.js'],
                     stubModules: ['text'],
                     mainConfigFile: 'src/require_config.js',
-                    exclude: ['bootstrap', 'jquery', 'underscore'],
+                    exclude: ['jquery', 'underscore', 'angular'],
                     out: 'dist/main.min.js',
                     wrap: {
                         startFile: 'tools/wrap.start'
