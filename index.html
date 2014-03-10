@@ -56,8 +56,14 @@
         <div class="row">
             <div class="col-xs-8" id="fieldContainer"></div>
             <div class="col-xs-4" id="controls">
-                <button class="btn" id="start">Start</button>
-                <button class="btn" id="stop">Stop</button>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-success">
+                        <input type="radio" name="start-stop" value="start">Start</input>
+                    </label>
+                    <label class="btn btn-danger active">
+                        <input type="radio" name="start-stop" value="stop">Stop</input>
+                    </label>
+                </div>
             </div>
         </div>
     </div>

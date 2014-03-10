@@ -21,14 +21,13 @@ require([
 
     $(function(){
 
-        // hook up the start button
-        $('#start').click(function(){
-            app.start();
-        });
-
-        // hook up the stop button
-        $('#stop').click(function(){
-            app.stop();
+        $('input[name="start-stop"]').change(function() {
+            var val = $( this ).val();
+            if ( val === 'start' ) {
+                app.start();
+            } else {
+                app.stop();
+            }
         });
 
         Backbone.history.start();
