@@ -30,6 +30,7 @@ define([
                         // update position of all obejcts in the field
                         $field.field( 'digest' );
                     };
+                    stop(); // make sure we clear out any existing intervals, just in case
                     intervalId = $interval( digest, attrs.scnFreq );
                 }
             };
@@ -39,9 +40,6 @@ define([
             };
         
             var populateField = function( config ) {
-                // stop any processing
-                stop();
-
                 // empty field container to delete current field
                 $el.empty();
 
@@ -55,8 +53,6 @@ define([
                 }
 
                 $el.append( $field );
-
-                setStarted( $scope.started );
             };
 
             /* DIFFERENT SCENARIOS
@@ -94,6 +90,7 @@ define([
             /* CHANGE HANDLERS
             ** =============== */
             var setScenario = function( scenario ) {
+                stop();
                 switch ( scenario ) {
                     case 'brownian':
                         setBrownian();
