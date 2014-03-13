@@ -7,10 +7,10 @@ define([
     var module = ng.module('app.controllers', []);
 
     // put stuff on that module
-    module.controller( 'scenarioController', function( $scope ) {
+    module.controller( 'scenarioController', [ '$scope', function( $scope ) {
         // Set up initial values
         $scope.scenario = 'brownian';
         $scope.started = false;
         $scope.numCircles = 10;
-    });
+    }]);
 });

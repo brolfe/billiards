@@ -9,7 +9,7 @@ define([
 
     var module = ng.module( 'app.directives', [] );
 
-    module.directive('billScenario', function( $interval ) {
+    module.directive('billScenario', [ '$interval', function( $interval ) {
         var link = function( $scope, $el, attrs ) {
             /* jshint maxstatements:20 */
 
@@ -139,5 +139,5 @@ define([
             restrict: 'E', // element / tag name matching
             link: link
         };
-    });
+    }]);
 });
