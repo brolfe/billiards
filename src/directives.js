@@ -13,8 +13,8 @@ define([
         var link = function( $scope, $el, attrs ) {
             /* jshint maxstatements:20 */
 
-            /* SCENARIO HELPERS
-            ** ================ */
+            /* INITIAL SETUP
+            ** ============= */
             var intervalId;
             var $field;
 
@@ -23,6 +23,9 @@ define([
                 scnHeight: 300,
                 scnFreq: 10
             });
+
+            /* SCENARIO HELPERS
+            ** ================ */
 
             var start = function() {
                 if ( $field ) {
@@ -39,7 +42,7 @@ define([
                 $interval.cancel( intervalId );
             };
         
-            var populateField = function( config ) {
+            var resetField = function( config ) {
                 // empty field container to delete current field
                 $el.empty();
 
@@ -48,58 +51,58 @@ define([
                     height: attrs.scnHeight
                 });
 
-                for ( var i = 0; i < $scope.numCircles; i++ ) {
-                    $field.field( 'add', $('<div>').circle( config ) );
-                }
+                addToField( config, $scope.numCircles );
 
                 $el.append( $field );
+            };
+
+            var addToField = function( config, numToAdd ) {
+                for ( var i = 0; i < numToAdd; i++ ) {
+                    $field.field( 'add', $('<div>').circle( config ) );
+                }
             };
 
             /* DIFFERENT SCENARIOS
             ** =================== */
 
-            var setBrownian = function() {
-                populateField({
-                    random: {
-                        field: [ attrs.scnWidth, attrs.scnHeight ]
-                    },
-                    brownian: 5
-                });
+            var brownianConfig = {
+                random: {
+                    field: [ attrs.scnWidth, attrs.scnHeight ]
+                },
+                brownian: 5
             };
 
-            var setConstantVelocity = function() {
-                populateField({
-                    random: {
-                        field: [ attrs.scnWidth, attrs.scnHeight ],
-                        randomAcceleration: false
-                    }
-                });
+            var constantVConfig = {
+                random: {
+                    field: [ attrs.scnWidth, attrs.scnHeight ],
+                    randomAcceleration: false
+                }
             };
 
-            var setGravity = function() {
-                populateField({
-                    random: {
-                        field: [ attrs.scnWidth, attrs.scnHeight ],
-                        randomAcceleration: false
-                    },
-                    ax: 0,
-                    ay: 3
-                });
+            var gravityConfig = {
+                random: {
+                    field: [ attrs.scnWidth, attrs.scnHeight ],
+                    randomAcceleration: false
+                },
+                ax: 0,
+                ay: 3
             };
 
             /* CHANGE HANDLERS
             ** =============== */
+
             var setScenario = function( scenario ) {
+                // stop the digest cycle on the field before messing with its contents
                 stop();
                 switch ( scenario ) {
                     case 'brownian':
-                        setBrownian();
+                        resetField( brownianConfig );
                         break;
                     case 'constantv':
-                        setConstantVelocity();
+                        resetField( constantVConfig );
                         break;
                     case 'gravity':
-                        setGravity();
+                        resetField( gravityConfig );
                         break;
                 }
                 
@@ -115,15 +118,38 @@ define([
                 }
             };
 
+            var updateNumCircles = function( newNum ) {
+                // de we need to add or remove circles?
+                var diff = newNum - $field.field('getNumCircles');
+                // stop the digest cycle on the field before messing with its contents
+                stop();
+                if ( diff > 0 ) {
+                    switch ( $scope.scenario ) {
+                        case 'brownian':
+                            addToField( brownianConfig, diff );
+                            break;
+                        case 'constantv':
+                            addToField( constantVConfig, diff );
+                            break;
+                        case 'gravity':
+                            addToField( gravityConfig, diff );
+                            break;
+                    }
+                } else if ( diff < 0 ) {
+                    $field.field( 'pop', Math.abs( diff ) );
+                }
+                // Make sure app reflects started/stopped state
+                setStarted( $scope.started );
+            };
+
             // scope watches
             $scope.$watch( 'scenario', setScenario );
             $scope.$watch('started', setStarted );
+            $scope.$watch('numCircles', _.debounce( updateNumCircles, 350 ) );
 
             // apply initial values
             setScenario( $scope.scenario );
             setStarted( $scope.started );
-
-            // TODO numcircles change handler
 
             /* CLEAN UP
             ** ======== */

@@ -80,13 +80,31 @@ module.exports = function(grunt) {
         csso: {
             app: {
                 files: {
-                    'dist/app.min.css': ['src/app.css']
+                    'dist/app.min.css': [
+                        'bower_components/bootstrap/dist/css/bootstrap.css',
+                        'bower_components/bootstrap/dist/css/bootstrap-theme.css',
+                        'bower_components/jqueryui/themes/ui-lightness/jquery-ui.css',
+                        'src/app.css'
+                    ]
                 }
             }
         },
         copy: {
-            'dist/index.html': 'index.html'
-            // 'dist/.htaccess': '.htaccess'
+            app: {
+                files: [
+                    {
+                        src: [ 'index.html' ],
+                        dest: 'dist/index.html'
+                    },
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['bower_components/jquery-ui/themes/ui-lightness/images/*'],
+                        dest: 'dist/images',
+                        filter: 'isFile'
+                    }
+                ]
+            }
         },
         usemin: {
             html: ['dist/index.html']

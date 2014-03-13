@@ -23,6 +23,7 @@
     "qunit": "~1.14.0",
     "jqueryui": "~1.10.4",
     "angular": "~1.2.14",
-    "angular-bootstrap": "~0.10.0"
+    "angular-bootstrap": "~0.10.0",
+    "angular-ui-slider": "~0.0.1"
   }
 }

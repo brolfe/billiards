@@ -27,10 +27,24 @@ define([
             this.circles = [];
         },
 
+        // add $circle to the field
         add: function( $circle ){
             // TODO get the circle's position and make sure it within the field
             this.circles.push( $circle );
             this.$element.append( $circle );
+        },
+
+        // remove numCircles number of circles from the field
+        pop: function( numCircles ) {
+            numCircles = numCircles || 1;
+            for ( var i = 0; i < numCircles; i++ ) {
+                this.circles.pop().remove();
+            }
+        },
+
+        // return the number of circles in the field
+        getNumCircles: function() {
+            return this.circles.length;
         },
 
         // update each circle in the field
