@@ -114,7 +114,7 @@ module.exports = function(grunt) {
         'clean',
         'lintspaces',
         'jshint',
-        'qunit',
+        /* 'qunit', */
 
         // Generate stuff in the dist dir
         'requirejs',
