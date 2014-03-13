@@ -56,7 +56,7 @@
                     <button type="button" class="btn btn-danger"  ng-model="started" btn-radio="false">Stop</button>
                 </div>
                 <h3>Adjust Number of shapes:</h3>
-                <div ui-slider min="1" max="25" step="1" ng-model="numCircles"></div>
+                <div ui-slider min="1" max="25" step="1" ng-model="numCircles" ng-disabled="!sliderEnabled"></div>
             </div>
         </div>
     </div>

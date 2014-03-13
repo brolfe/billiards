@@ -96,6 +96,7 @@ define([
 
             var bulletConfig = [
                 {
+                    color: 'black',
                     size: 10,
                     px: 100,
                     py: 120,
@@ -103,6 +104,7 @@ define([
                     vy: 0
                 },
                 {
+                    color: 'black',
                     size: 50,
                     px: 300,
                     py: 100,
