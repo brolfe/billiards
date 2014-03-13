@@ -1,6 +1,14 @@
 # Billiards
 
-This is a little physics simulation page.
+This is a little physics simulation page that models basic mechanics. The app contains a "field" which is populated with "circles". These circles can be given different initial conditions (size, position, velocity, acceleration ) which will play out when the app is started.
+
+The app comes with four pre-baked scenarios:
+1. Brownian motion - randomly positioned circles with zero initial velocity and constantly random acceleration.
+1. Constant velocity - randomly positioned circles with random initial velocity and zero acceleration.
+1. Gravity - randomly positioned circles with random initial velocity and gravitational acceleration.
+1. Bullet - two circles, one small and one large. The small one shoots like bullet into the big one, transfering its momentum.
+
+All collisions in this app are perfectly elastic -- in other words, no energy is lost in the collision. (A dampening factor could certainly be added.)
 
 ## Installation
 
@@ -12,13 +20,5 @@ This is a little physics simulation page.
 ## To Do
 
 1. Style it!
-    1. circles should be round...shouldn't they?
     1. Make it responsive!
-1. Add UI controlls
-    1. Start/stop should toggle
-    1. slider for adjusting num of circles
-1. Momentum and size: circles should take a size argument which would also be their mass.
 1. Brownian motion "external force".
-1. Framework-ize it?
-    1. Have an "app state" model. Make the field a view and controls update/reflect that app-state model (or scope or whatever).
-    1. Angular with angular-ui?
