@@ -2,13 +2,14 @@ require([
     'jquery',
     'angular',
     // angular module system
-    'src/controller',
+    'src/controllers',
+    'src/directives',
     'angular-ui'
 ], function( $, ng ) {
     'use strict';
 
     // define the app
-    ng.module( 'app', [ 'app.controller', 'ui.bootstrap' ] );
+    ng.module( 'app', [ 'app.controllers', 'app.directives', 'ui.bootstrap' ] );
 
     $(function() {
         // start that app

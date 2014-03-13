@@ -38,7 +38,7 @@
     <!-- endbuild -->
 </head>
 <body>
-    <div class="container" ng-controller="controller">
+    <div class="container" ng-controller="scenarioController">
         <div class="row">
             <div class="col-xs-12">
                 <h1>Billiards</h1>
@@ -54,7 +54,9 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-8" id="fieldContainer"></div>
+            <div class="col-xs-8">
+                <bill-scenario scn-width="500" scn-height="300" scn-num-circles="15"></bill-scenario>
+            </div>
             <div class="col-xs-4" id="controls">
                 <div class="btn-group">
                     <button type="button" class="btn btn-success" ng-model="started" btn-radio="true">Start</button>
