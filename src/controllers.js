@@ -9,17 +9,27 @@ define([
     // put stuff on that module
     module.controller( 'scenarioController', [ '$scope', function( $scope ) {
 
-        // TODO does angular have built in support for computed values?
-        var setSliderEnabled = function( scenario ) {
-            $scope.sliderEnabled = scenario !== 'bullet';
+        var setAllowScenarioMods = function( scenario ) {
+            $scope.allowScenarioMods = scenario !== 'bullet';
+            if ( scenario === 'bullet' ) {
+                // save what the option was before we change it
+                nonBulletUseRandomSize = $scope.useRandomSize;
+                $scope.useRandomSize = false;
+            } else {
+                // if we are no longer on bullet, reset the useRandomSize option to
+                // whatever it was before we changed it.
+                $scope.useRandomSize = nonBulletUseRandomSize;
+            }
         };
 
         // Set up initial values
         $scope.scenario = 'brownian';
-        setSliderEnabled( $scope.scenario );
+        setAllowScenarioMods( $scope.scenario );
         $scope.started = false;
+        $scope.useRandomSize = true;
+        var nonBulletUseRandomSize = $scope.useRandomSize;
         $scope.numCircles = 10;
 
-        $scope.$watch( 'scenario', setSliderEnabled );
+        $scope.$watch( 'scenario', setAllowScenarioMods );
     }]);
 });

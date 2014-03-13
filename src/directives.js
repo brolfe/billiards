@@ -11,7 +11,7 @@ define([
 
     module.directive('billScenario', [ '$interval', function( $interval ) {
         var link = function( $scope, $el, attrs ) {
-            /* jshint maxstatements:20 */
+            /* jshint maxstatements:25 */
 
             /* INITIAL SETUP
             ** ============= */
@@ -71,47 +71,59 @@ define([
             /* DIFFERENT SCENARIOS
             ** =================== */
 
-            var brownianConfig = {
-                random: {
-                    field: [ attrs.scnWidth, attrs.scnHeight ]
-                },
-                brownian: 5
+            
+            var brownianConfig = function() {
+                return {
+                    random: {
+                        field: [ attrs.scnWidth, attrs.scnHeight ],
+                        randomSize: $scope.useRandomSize
+                    },
+                    brownian: 5
+                };
             };
 
-            var constantVConfig = {
-                random: {
-                    field: [ attrs.scnWidth, attrs.scnHeight ],
-                    randomAcceleration: false
-                }
+            var constantVConfig = function() {
+                return {
+                    random: {
+                        field: [ attrs.scnWidth, attrs.scnHeight ],
+                        randomSize: $scope.useRandomSize,
+                        randomAcceleration: false
+                    }
+                };
             };
 
-            var gravityConfig = {
-                random: {
-                    field: [ attrs.scnWidth, attrs.scnHeight ],
-                    randomAcceleration: false
-                },
-                ax: 0,
-                ay: 3
+            var gravityConfig = function() {
+                return {
+                    random: {
+                        field: [ attrs.scnWidth, attrs.scnHeight ],
+                        randomSize: $scope.useRandomSize,
+                        randomAcceleration: false
+                    },
+                    ax: 0,
+                    ay: 3
+                };
             };
 
-            var bulletConfig = [
-                {
-                    color: 'black',
-                    size: 10,
-                    px: 100,
-                    py: 120,
-                    vx: 20,
-                    vy: 0
-                },
-                {
-                    color: 'black',
-                    size: 50,
-                    px: 300,
-                    py: 100,
-                    vx: 0,
-                    vy: 0
-                }
-            ];
+            var bulletConfig = function() {
+                return [
+                    {
+                        color: 'black',
+                        size: 10,
+                        px: 100,
+                        py: 120,
+                        vx: 20,
+                        vy: 0
+                    },
+                    {
+                        color: 'black',
+                        size: 50,
+                        px: 300,
+                        py: 100,
+                        vx: 0,
+                        vy: 0
+                    }
+                ];
+            };
 
             /* CHANGE HANDLERS
             ** =============== */
@@ -121,16 +133,16 @@ define([
                 stop();
                 switch ( scenario ) {
                     case 'brownian':
-                        resetField( brownianConfig );
+                        resetField( brownianConfig() );
                         break;
                     case 'constantv':
-                        resetField( constantVConfig );
+                        resetField( constantVConfig() );
                         break;
                     case 'gravity':
-                        resetField( gravityConfig );
+                        resetField( gravityConfig() );
                         break;
                     case 'bullet':
-                        resetField( bulletConfig );
+                        resetField( bulletConfig() );
                         break;
                 }
                 
@@ -154,13 +166,13 @@ define([
                 if ( diff > 0 ) {
                     switch ( $scope.scenario ) {
                         case 'brownian':
-                            addToField( brownianConfig, diff );
+                            addToField( brownianConfig(), diff );
                             break;
                         case 'constantv':
-                            addToField( constantVConfig, diff );
+                            addToField( constantVConfig(), diff );
                             break;
                         case 'gravity':
-                            addToField( gravityConfig, diff );
+                            addToField( gravityConfig(), diff );
                             break;
                     }
                 } else if ( diff < 0 ) {
@@ -170,9 +182,15 @@ define([
                 setStarted( $scope.started );
             };
 
+            var randomSizeHandler = function() {
+                // when this option is changed, just reset the scenario
+                setScenario( $scope.scenario );
+            };
+
             // scope watches
             $scope.$watch( 'scenario', setScenario );
             $scope.$watch('started', setStarted );
+            $scope.$watch('useRandomSize', randomSizeHandler );
             $scope.$watch('numCircles', _.debounce( updateNumCircles, 350 ) );
 
             // apply initial values
