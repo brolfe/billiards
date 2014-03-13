@@ -57,8 +57,14 @@ define([
             };
 
             var addToField = function( config, numToAdd ) {
-                for ( var i = 0; i < numToAdd; i++ ) {
-                    $field.field( 'add', $('<div>').circle( config ) );
+                if ( _.isArray( config ) ) {
+                    _.each( config, function( c ) {
+                        $field.field( 'add', $('<div>').circle( c ) );
+                    });
+                } else {
+                    for ( var i = 0; i < numToAdd; i++ ) {
+                        $field.field( 'add', $('<div>').circle( config ) );
+                    }
                 }
             };
 
@@ -88,6 +94,23 @@ define([
                 ay: 3
             };
 
+            var bulletConfig = [
+                {
+                    size: 10,
+                    px: 100,
+                    py: 120,
+                    vx: 20,
+                    vy: 0
+                },
+                {
+                    size: 50,
+                    px: 300,
+                    py: 100,
+                    vx: 0,
+                    vy: 0
+                }
+            ];
+
             /* CHANGE HANDLERS
             ** =============== */
 
@@ -103,6 +126,9 @@ define([
                         break;
                     case 'gravity':
                         resetField( gravityConfig );
+                        break;
+                    case 'bullet':
+                        resetField( bulletConfig );
                         break;
                 }
                 

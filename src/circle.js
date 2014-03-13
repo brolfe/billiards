@@ -107,7 +107,7 @@ define([
         // set/get the position on the element
         position: function( x, y ){
             // if no parameters, treat as a getter
-            if ( !x && !y ) {
+            if ( x == null && y == null ) {
                 return [ this.options.px, this.options.py ];
             }
 
@@ -121,7 +121,7 @@ define([
         // set/get the velocity on the element
         velocity: function( x, y ){
             // if no parameters, treat as a getter
-            if ( !x && !y ) {
+            if ( x == null && y == null ) {
                 return [ this.options.vx, this.options.vy ];
             }
 
@@ -133,7 +133,7 @@ define([
         // set/get the acceleration on the element
         acceleration: function( x, y ){
             // if no parameters, treat as a getter
-            if ( !x && !y ) {
+            if ( x == null && y == null ) {
                 return [ this.options.ax, this.options.ay ];
             }
 
