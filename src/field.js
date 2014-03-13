@@ -92,17 +92,19 @@ define([
                 }
                 // gah! I have forgotten the momentum equations!
                 var c1v = $c1.circle('velocity');
-                var c1vx = c1v[ X ];
-                var c1vy = c1v[ Y ];
+                var c1m = $c1.circle('size');
+                var c1px = c1v[ X ] * c1m; // p = momentum = m*v
+                var c1py = c1v[ Y ] * c1m;
 
                 var c2v = $c2.circle('velocity');
-                var c2vx = c2v[ X ];
-                var c2vy = c2v[ Y ];
+                var c2m = $c2.circle('size');
+                var c2px = c2v[ X ] * c2m;
+                var c2py = c2v[ Y ] * c2m;
 
                 // swap x and y velocities
                 // TODO we are ignoring mass/size
-                $c1.circle('velocity', c2vx, c2vy );
-                $c2.circle('velocity', c1vx, c1vy );
+                $c1.circle('velocity', c2px / c1m, c2py / c1m );
+                $c2.circle('velocity', c1px / c2m, c1py / c2m );
 
                 // record that these two have collided so they dont collide for
                 // multiple consecutive cycles
