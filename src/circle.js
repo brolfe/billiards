@@ -25,6 +25,7 @@ define([
 
             random: {
                 field: null, // the field in which to restrict the random positioning
+                randomSize: true,        // randomly assign size
                 randomVelocity: true,    // randomly assign velocity
                 randomAcceleration: true // randomly assign acceleration
             },
@@ -76,6 +77,10 @@ define([
         _initRandomInitialConditions: function( config ) {
             this.options.px = getLimitedRandom( config.field[ X ] - this.options.size );
             this.options.py = getLimitedRandom( config.field[ Y ] - this.options.size );
+
+            if ( config.randomSize ) {
+                this.options.size = getLimitedRandom( 10 ) + 10; // ensure min of 10
+            }
 
             if ( config.randomVelocity ) {
                 this.options.vx = getLimitedRandom( 20, true );
