@@ -25,5 +25,9 @@
     "angular": "~1.2.14",
     "angular-bootstrap": "~0.10.0",
     "angular-ui-slider": "~0.0.1"
+  },
+  "resolutions": {
+    "angular": "~1.2.14",
+    "jquery": "~2.1.0"
   }
 }
