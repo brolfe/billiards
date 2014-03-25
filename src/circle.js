@@ -70,7 +70,7 @@ define([
 
             // TODO: check parent for dimensions and set max position?
             // should this object require that it is given the container?
-            this._updatePosition();
+            this.updatePosition();
         },
 
         // create random initial conditions
@@ -97,7 +97,7 @@ define([
         },
 
         // update postion on the element
-        _updatePosition: function(){
+        updatePosition: function(){
             this.$element.css({
                 top: this.options.py,
                 left: this.options.px
@@ -105,17 +105,21 @@ define([
         },
 
         // set/get the position on the element
-        position: function( x, y ){
+        position: function( x, y, updatePosition ){
             // if no parameters, treat as a getter
             if ( x == null && y == null ) {
                 return [ this.options.px, this.options.py ];
             }
 
+            updatePosition = updatePosition !== false;
+
             // else this is a setter
             this.options.px = x;
             this.options.py = y;
 
-            this._updatePosition();
+            if ( updatePosition ) {
+                this.updatePosition();
+            }
         },
 
         // set/get the velocity on the element
@@ -143,8 +147,9 @@ define([
         },
 
         // Update position and velocity for one digest cycle
-        digest: function( scale ){
+        digest: function( scale, updatePosition ){
             scale = scale || 1;
+            updatePosition = updatePosition !== false;
 
             // update postion / velocity
             this.options.px += this.options.vx / scale;
@@ -159,7 +164,9 @@ define([
             this.options.vx += this.options.ax / scale;
             this.options.vy += this.options.ay / scale;
 
-            this._updatePosition();
+            if ( updatePosition ) {
+                this.updatePosition();
+            }
         },
 
         size: function() {

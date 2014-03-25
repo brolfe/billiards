@@ -9,13 +9,13 @@ define([
 
     var module = ng.module( 'app.directives', [] );
 
-    module.directive('billScenario', [ '$interval', function( $interval ) {
+    module.directive('billScenario', function() {
         var link = function( $scope, $el, attrs ) {
             /* jshint maxstatements:25 */
 
             /* INITIAL SETUP
             ** ============= */
-            var intervalId;
+            var doAnimate = false;
             var $field;
 
             attrs = _.defaults( attrs, {
@@ -28,18 +28,21 @@ define([
             ** ================ */
 
             var start = function() {
+                doAnimate = true;
                 if ( $field ) {
                     var digest = function() {
                         // update position of all obejcts in the field
                         $field.field( 'digest' );
+                        if ( doAnimate ) {
+                            window.requestAnimationFrame( digest );
+                        }
                     };
-                    stop(); // make sure we clear out any existing intervals, just in case
-                    intervalId = $interval( digest, attrs.scnFreq );
+                    window.requestAnimationFrame( digest );
                 }
             };
 
             var stop = function() {
-                $interval.cancel( intervalId );
+                doAnimate = false;
             };
         
             var resetField = function( config ) {
@@ -208,5 +211,5 @@ define([
             restrict: 'E', // element / tag name matching
             link: link
         };
-    }]);
+    });
 });

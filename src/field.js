@@ -52,7 +52,9 @@ define([
 
             // call digest on each circle
             _.each( this.circles, function( $c ){
-                $c.circle( 'digest', this.options.scale );
+                // false tells digest not to update the position on the DOM
+                // since we will do that in batch
+                $c.circle( 'digest', this.options.scale, false );
             }, this );
 
             // after all cicles have digested, adjust position/velocity accounting for boundary collisions
@@ -74,6 +76,12 @@ define([
 
             }, this );
 
+            // Now that we have done all the position calculations and adjustments,
+            // update position on the dom
+            _.each( this.circles, function( $c ){
+                $c.circle('updatePosition');
+            });
+
         },
 
         _updateCircleCollision: function( $c1, $c2 ) {
@@ -90,7 +98,7 @@ define([
                     // otherwise they will just start trading momentum back and forth infinitely
                     return;
                 }
-                // gah! I have forgotten the momentum equations!
+
                 var c1v = $c1.circle('velocity');
                 var c1m = $c1.circle('size');
                 var c1px = c1v[ X ] * c1m; // p = momentum = m*v
@@ -102,7 +110,6 @@ define([
                 var c2py = c2v[ Y ] * c2m;
 
                 // swap x and y velocities
-                // TODO we are ignoring mass/size
                 $c1.circle('velocity', c2px / c1m, c2py / c1m );
                 $c2.circle('velocity', c1px / c2m, c1py / c2m );
 
@@ -168,7 +175,9 @@ define([
 
             if ( adjustmentMade ) {
                 $circle.circle( 'velocity', vx, vy );
-                $circle.circle( 'position', leftX, topY );
+                // false tells position not to update the position on the DOM
+                // since we will do that in batch
+                $circle.circle( 'position', leftX, topY, false );
             }
 
         },
